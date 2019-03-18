@@ -1,0 +1,6 @@
+REACT_APP_FIREBASE_API_KEY= "xxxxxx"
+REACT_APP_FIREBASE_authDomain = "xxxx",
+REACT_APP_FIREBASE_databaseURL = "https://xxxx.firebaseio.com",
+REACT_APP_FIREBASE_projectId = "xxxxx",
+REACT_APP_FIREBASE_storageBucket = "xxxxx.appspot.com",
+REACT_APP_FIREBASE_messagingSenderId = "xxxxxxxx"
