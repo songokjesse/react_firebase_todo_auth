@@ -32,9 +32,10 @@ class Register extends Component {
                 this.props.history.push('/');
              })
             .catch((error) => {
-                this.setState({error: error });
+                this.setState({error: error.message });
             });
     };
+
     render() {
         return (
             <div className="container py-4">
@@ -43,6 +44,9 @@ class Register extends Component {
                     <div className="card">
                         <div className="card-header"> <b> <i className="fas fa-users-cog"> </i> Account Creation </b> </div>
                         <div className="card-body">
+
+                            {this.state.error == null ? <div></div> : <div className='alert alert-danger'>{this.state.error}</div> }
+
                             <div className="form-group">
                                 <label> Email</label>
                                 <input type="email" className="form-control"  value={this.state.email} onChange={this.handleInputEmail} placeholder="Username" />
