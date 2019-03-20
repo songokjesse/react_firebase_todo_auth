@@ -3,10 +3,33 @@ import {BrowserRouter as Router, Switch, Route, Link} from 'react-router-dom';
 import Home from './components/Home';
 import Login from './components/Login';
 import Register from './components/Register';
+import firebase from './config/firebase';
 import './App.css';
+import Dashboard from "./components/Dashboard";
 
 class App extends Component {
-  render() {
+    constructor(props) {
+        super(props);
+        this.state ={
+            authenticated: false
+        };
+    };
+componentDidMount() {
+    firebase.auth().onAuthStateChanged((authenticated)=>{
+        authenticated
+        ? this.setState(()=>({
+            authenticated: true
+            }))
+        : this.setState(() => ({
+            authenticated:false
+        }))
+    })
+}
+    logOutUser = () => {
+        firebase.auth().signOut();
+    };
+
+    render() {
     return (
         <Router className="App">
             <nav className="navbar navbar-expand-lg navbar-light bg-light">
@@ -22,8 +45,9 @@ class App extends Component {
                         <li className="nav-item active">
                             <Link className="nav-link" to={'/'}>Home <span className="sr-only">(current)</span></Link>
                         </li>
+
                         <li className="nav-item">
-                            <Link className="nav-link disabled" to={'/'}>Disabled</Link>
+                            {this.state.authenticated === false ? <Link className="nav-link disabled" to={'/'}>Dashboard</Link> : <Link className="nav-link" to={'/dashboard'}>Dashboard</Link> }
                         </li>
                     </ul>
                     <ul className="navbar-nav">
@@ -31,7 +55,7 @@ class App extends Component {
                             <Link className="nav-link" to={'/register'}>Register</Link>
                         </li>
                         <li  className="nav-item">
-                            <Link className="nav-link" to={'/login'}>Login</Link>
+                            {this.state.authenticated === false ? <Link className="nav-link" to={'/login'}>Login</Link> : <Link onClick={this.logOutUser} className="nav-link" >LogOut</Link> }
                         </li>
                     </ul>
                 </div>
@@ -40,6 +64,7 @@ class App extends Component {
             <Route exact path='/' component={Home}/>
             <Route path='/register' component={Register}/>
             <Route path='/login' component={Login}/>
+            <Route path='/dashboard' component={Dashboard}/>
             </Switch>
         </Router>
     );
