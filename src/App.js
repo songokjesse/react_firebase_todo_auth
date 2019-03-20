@@ -11,14 +11,22 @@ class App extends Component {
     constructor(props) {
         super(props);
         this.state ={
-            authenticated: false
+            authenticated: false,
+            displayName : '',
+            email:'',
+            uid :'',
+            providerData : '',
         };
     };
 componentDidMount() {
-    firebase.auth().onAuthStateChanged((authenticated)=>{
-        authenticated
+    firebase.auth().onAuthStateChanged((user)=>{
+        user
         ? this.setState(()=>({
-            authenticated: true
+                authenticated: true,
+                email:user.email,
+                uid :user.uid,
+                providerData : user.providerData,
+
             }))
         : this.setState(() => ({
             authenticated:false
